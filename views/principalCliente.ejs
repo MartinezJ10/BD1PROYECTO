@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaz de cliente</title>
+    <!-- Agregamos Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        section {
+            padding: 20px;
+        }
+        .product {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(13, 200, 16, 0.575);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .product img {
+            max-width: 100%;
+            height: auto;
+        }
+        .product h2 {
+            margin-top: 0;
+        }
+        .product p {
+            margin-bottom: 10px;
+        }
+        .btn {
+            cursor: pointer;
+        }
+        .product-list {
+         display: none;
+        position: absolute;
+        background-color: #ffffff; /* Color de fondo de la lista */
+        padding: 10px;
+        list-style-type: none;
+}
+
+        .nav-item:hover .product-list {
+         display: block;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <div style="text-align: center;"> <!-- Contenedor centrado -->
+            <img src="Images/eco justa.png" alt="login-icon" style="height: 4rem; margin-right: 10px;"> <!-- Imagen -->
+            <h1 style="display: inline-block;">Eco Justa</h1> <!-- Texto -->
+        </div>
+        
+        
+        
+    </header>
+    <nav class="navbar navbar-expand-lg navbar-success bg-success">
+        <div class="container">
+            <a class="nav-link" href="#" style="color: white;">Inicio</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" style="color: white;">Productos</a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" style="color: white;">Tipo de Producto</a>
+                        <ul class="product-list">
+                            <li>Granos basicos</li>
+                            <li>Lacteos</li>
+                            <li>Verduras</li>
+                            <!-- Agrega más elementos de lista según sea necesario -->
+                        </ul>
+                    </li>
+                    
+                    
+                </ul>
+                <form class="form-inline my-2 my-lg-0 mr-3">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
+                </form> 
+                <a href="pedidos.html" class="btn btn-outline-light">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 0.5a.5.5 0 0 1 .5-.5h1a2.5 2.5 0 0 1 2.164 1.25l.672 1.341h6.328a.5.5 0 0 1 .416.777l-1.5 3a.5.5 0 0 1-.416.223h-5.25a1.5 1.5 0 1 0 0 3h2.5a.5.5 0 0 1 .416.777l-1.5 3a.5.5 0 0 1-.416.223H2.5a.5.5 0 0 1-.485-.379L1.078 10.5H1.5a3.5 3.5 0 0 1 3.163 2.1l.614 1.228a1 1 0 0 0 .894.572h5.636a1 1 0 0 0 .894-.572l.614-1.228A3.5 3.5 0 0 1 14.5 10h.422l1.113-2.225a.5.5 0 0 1 .485-.379h1a.5.5 0 0 1 0 1h-0.28l-1.053 2.105a2.5 2.5 0 0 1-2.429 1.895H5.29l-0.672-1.341A1.5 1.5 0 0 0 3.5 10H2a1 1 0 1 1 0-2h1.5a.5.5 0 0 1 .416.777l-1.5 3a.5.5 0 0 1-.416.223H1.5a.5.5 0 0 1-.5-.5V0.5zM4.5 13a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
+                    </svg>
+                    Carrito
+                </a>
+            </div>
+            
+        </div>
+        <div>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color: white;">Nombre de Usuario</a>
+
+                </li>
+                <li class="nav-item">
+                    <a href="login.html" class="nav-link"  style="color: white;">Cerrar Sesión</a>
+                    
+                </li>
+            </ul>
+        </div>
+    </nav><br>
+      <!-- Agrega este contenedor donde se cargarán las imágenes -->
+      <br>
+      <br>
+      <br>
+     <div id="productos-container" class="container"></div>
+
+    <div style="text-align: center;">
+        <h1>Productos más vendidos</h1>
+    </div>
+    
+    
+    <section class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="product">
+                    <img src="Images/frijoles.jpg" alt="Producto 1">
+                    <h2>Frijoles</h2>
+                    <p>Precio Medida</p>
+                    <p>Precio: L80.00</p> 
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product">
+                    <img src="Images/queso.jpeg" alt="Producto 2">
+                    <h2>Queso</h2>
+                    <p>Precio Libra</p>
+                    <p>Precio: L50.00</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product">
+                    <img src="Images/maiz.avif" alt="Producto 3">
+                    <h2>Maíz</h2>
+                    <p>Precio Medida</p>
+                    <p>Precio: L20.00</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product">
+                    <img src="Images/arroz.jpg" alt="Producto 4">
+                    <h2>Arroz</h2>
+                    <p>Precio Libra</p>
+                    <p>Precio: L8.00</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product">
+                    <img src="Images/cebolla.webp" alt="Producto 5">
+                    <h2>Cebollas</h2>
+                    <p>Precio Libra</p>
+                    <p>Precio: L20.00</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="product">
+                    <img src="Images/papas.avif" alt="Producto 6">
+                    <h2>Papas</h2>
+                    <p>Precio Libra</p>
+                    <p>Precio: L10.00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Función para cargar las imágenes de granos básicos
+        function cargarGranosBasicos() {
+            // Obtener el contenedor donde se cargarán las imágenes
+            var contenedor = document.getElementById("productos-container");
+    
+            // Limpiar el contenedor antes de cargar nuevas imágenes
+            contenedor.innerHTML = "";
+    
+            // Lista de imágenes de granos básicos
+            var imagenesGranosBasicos = [
+                "Images/frijoles.jpg",
+                "Images/arroz.jpg",
+                "Images/maiz.avif",
+                // Agregar más imágenes según sea necesario
+            ];
+    
+            // Lista de nombres de productos
+            var nombresProductos = [
+                "Frijoles",
+                "Arroz",
+                "Maíz",
+                // Agregar más nombres según sea necesario
+            ];
+    
+            // Lista de precios de medida
+            var preciosMedida = [
+                "Precio Medida ",
+                "Precio Libra ",
+                "Precio Medida ",
+                // Agregar más precios según sea necesario
+            ];
+    
+            // Lista de precios
+            var precios = [
+                "Precio: L80.00",
+                "Precio: L8.00",
+                "Precio: L20.00",
+                // Agregar más precios según sea necesario
+            ];
+    
+            // Crear una fila para las imágenes de los granos básicos
+            var fila = document.createElement("div");
+            fila.className = "row";
+    
+            // Iterar sobre cada imagen y crear el HTML correspondiente
+            for (var i = 0; i < imagenesGranosBasicos.length; i++) {
+                var productoDiv = document.createElement("div");
+                productoDiv.className = "col-md-4";
+    
+                var product = document.createElement("div");
+                product.className = "product";
+    
+                var imagen = document.createElement("img");
+                imagen.src = imagenesGranosBasicos[i];
+                imagen.alt = "Producto de granos básicos";
+    
+                var h2 = document.createElement("h2");
+                h2.textContent = nombresProductos[i]; // Establecer el nombre del producto
+    
+                var p1 = document.createElement("p");
+                p1.textContent = preciosMedida[i]; // Establecer el precio de medida
+    
+                var p2 = document.createElement("p");
+                p2.textContent = precios[i]; // Establecer el precio
+    
+                // Adjuntar los elementos al contenedor del producto
+                product.appendChild(imagen);
+                product.appendChild(h2);
+                product.appendChild(p1);
+                product.appendChild(p2);
+    
+                // Adjuntar el contenedor del producto a la columna
+                productoDiv.appendChild(product);
+    
+                // Adjuntar la columna a la fila
+                fila.appendChild(productoDiv);
+            }
+    
+            // Adjuntar la fila al contenedor principal
+            contenedor.appendChild(fila);
+        }
+    
+        // Evento de clic en el elemento "Granos básicos"
+        var granosBasicos = document.querySelector('.product-list li:first-child');
+        granosBasicos.addEventListener("click", function() {
+            cargarGranosBasicos();
+        });
+    });
+    </script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Función para cargar las imágenes de productos lácteos
+            function cargarProductosLacteos() {
+                // Obtener el contenedor donde se cargarán las imágenes
+                var contenedor = document.getElementById("productos-container");
+        
+                // Limpiar el contenedor antes de cargar nuevas imágenes
+                contenedor.innerHTML = "";
+        
+                // Lista de imágenes de productos lácteos
+                var imagenesLacteos = [
+                    "Images/queso.jpeg",
+                    "Images/Leche.jpg",
+                    "Images/mantequilla.jpg",
+                    "Images/cuajada.jpg"
+                    // Agregar más imágenes según sea necesario
+                ];
+        
+                // Lista de nombres de productos lácteos
+                var nombresProductosLacteos = [
+                    "Queso",
+                    "Leche",
+                    "Mantequilla",
+                    "Cuajada"
+                    // Agregar más nombres según sea necesario
+                ];
+        
+                // Lista de precios de medida de productos lácteos
+                var preciosMedidaLacteos = [
+                    "Precio Libra",
+                    "Precio Litro",
+                    "Precio Libra",
+                    "Precio Libra",
+                    // Agregar más precios según sea necesario
+                ];
+        
+                // Lista de precios de productos lácteos
+                var preciosLacteos = [
+                    "Precio: L50.00",
+                    "Precio: L30.00",
+                    "Precio: L25.00",
+                    "Precio: L30.00",
+                    // Agregar más precios según sea necesario
+                ];
+        
+                // Crear una fila para las imágenes de productos lácteos
+                var fila = document.createElement("div");
+                fila.className = "row";
+        
+                // Iterar sobre cada imagen y crear el HTML correspondiente
+                for (var i = 0; i < imagenesLacteos.length; i++) {
+                    var productoDiv = document.createElement("div");
+                    productoDiv.className = "col-md-4";
+        
+                    var product = document.createElement("div");
+                    product.className = "product";
+        
+                    var imagen = document.createElement("img");
+                    imagen.src = imagenesLacteos[i];
+                    imagen.alt = "Producto lácteo";
+        
+                    var h2 = document.createElement("h2");
+                    h2.textContent = nombresProductosLacteos[i]; // Establecer el nombre del producto
+        
+                    var p1 = document.createElement("p");
+                    p1.textContent = preciosMedidaLacteos[i]; // Establecer el precio de medida
+        
+                    var p2 = document.createElement("p");
+                    p2.textContent = preciosLacteos[i]; // Establecer el precio
+        
+                    // Adjuntar los elementos al contenedor del producto
+                    product.appendChild(imagen);
+                    product.appendChild(h2);
+                    product.appendChild(p1);
+                    product.appendChild(p2);
+        
+                    // Adjuntar el contenedor del producto a la columna
+                    productoDiv.appendChild(product);
+        
+                    // Adjuntar la columna a la fila
+                    fila.appendChild(productoDiv);
+                }
+        
+                // Adjuntar la fila al contenedor principal
+                contenedor.appendChild(fila);
+            }
+        
+            // Evento de clic en el elemento "Productos lácteos"
+            var productosLacteos = document.querySelector('.product-list li:nth-child(2)');
+            productosLacteos.addEventListener("click", function() {
+                cargarProductosLacteos();
+            });
+        });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Función para cargar las imágenes de productos de verduras
+                function cargarProductosVerduras() {
+                    // Obtener el contenedor donde se cargarán las imágenes
+                    var contenedor = document.getElementById("productos-container");
+            
+                    // Limpiar el contenedor antes de cargar nuevas imágenes
+                    contenedor.innerHTML = "";
+            
+                    // Lista de imágenes de productos de verduras
+                    var imagenesVerduras = [
+                        "Images/chiledulce.jpeg",
+                        "Images/tomates.webp",
+                        "Images/cebolla.webp",
+                        "Images/papas.avif",
+                        // Agregar más imágenes según sea necesario
+                    ];
+            
+                    // Lista de nombres de productos de verduras
+                    var nombresProductosVerduras = [
+                        "Chile Dulce",
+                        "Tomate",
+                        "Cebolla",
+                        "Papas",
+                        // Agregar más nombres según sea necesario
+                    ];
+            
+                    // Lista de precios de medida de productos de verduras
+                    var preciosMedidaVerduras = [
+                        "Precio Libra",
+                        "Precio Libra",
+                        "Precio Libra ",
+                        "Precio Libra "
+                        // Agregar más precios según sea necesario
+                    ];
+            
+                    // Lista de precios de productos de verduras
+                    var preciosVerduras = [
+                        "Precio: L15.00",
+                        "Precio: L15.00",
+                        "Precio: L15.00",
+                        "Precio: L10.00"
+                        // Agregar más precios según sea necesario
+                    ];
+            
+                    // Crear una fila para las imágenes de productos de verduras
+                    var fila = document.createElement("div");
+                    fila.className = "row";
+            
+                    // Iterar sobre cada imagen y crear el HTML correspondiente
+                    for (var i = 0; i < imagenesVerduras.length; i++) {
+                        var productoDiv = document.createElement("div");
+                        productoDiv.className = "col-md-4";
+            
+                        var product = document.createElement("div");
+                        product.className = "product";
+            
+                        var imagen = document.createElement("img");
+                        imagen.src = imagenesVerduras[i];
+                        imagen.alt = "Producto de verduras";
+            
+                        var h2 = document.createElement("h2");
+                        h2.textContent = nombresProductosVerduras[i]; // Establecer el nombre del producto
+            
+                        var p1 = document.createElement("p");
+                        p1.textContent = preciosMedidaVerduras[i]; // Establecer el precio de medida
+            
+                        var p2 = document.createElement("p");
+                        p2.textContent = preciosVerduras[i]; // Establecer el precio
+            
+                        // Adjuntar los elementos al contenedor del producto
+                        product.appendChild(imagen);
+                        product.appendChild(h2);
+                        product.appendChild(p1);
+                        product.appendChild(p2);
+            
+                        // Adjuntar el contenedor del producto a la columna
+                        productoDiv.appendChild(product);
+            
+                        // Adjuntar la columna a la fila
+                        fila.appendChild(productoDiv);
+                    }
+            
+                    // Adjuntar la fila al contenedor principal
+                    contenedor.appendChild(fila);
+                }
+            
+                // Evento de clic en el elemento "Verduras"
+                var verduras = document.querySelector('.product-list li:nth-child(3)');
+                verduras.addEventListener("click", function() {
+                    cargarProductosVerduras();
+                });
+            });
+            </script>
