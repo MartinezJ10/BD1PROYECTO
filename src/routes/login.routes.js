@@ -1,25 +1,31 @@
 import { Router } from "express";
-import { getIndex, validarUsuario } from "../controllers/login.controller.js"
+import { getIndex, validarLogin, validarUsuario } from "../controllers/login.controller.js"
 
 const router = Router();
 
 router.get('/', getIndex)
-
+/*
 router.get('/loginCliente', (req, res) => {
     res.render('loginCliente');
 });
+*/
 
 router.get('/login', (req, res) => {
     res.render('login');
 });
 
-router.get('/principalProductor', (req, res) => {
-    res.render('principalProductor');
+router.get('/registro', (req, res) => {
+    res.render('registro');
 });
 
-router.get('/principalCliente', (req, res) => {
-    res.render('principalCliente');
+router.get('/principalProductor',validarLogin, (req, res) => {
+    res.render('principalProductor', {user:req.session.userProductor});
 });
+
+router.get('/principalCliente',validarLogin, (req, res) => {
+    res.render('principalCliente', {user:req.session.userCliente});
+});
+
 router.post('/validarLogin', validarUsuario);
-
+//router.post('/crearUsuario', crearUsuario)
 export default router;

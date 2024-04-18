@@ -18,6 +18,58 @@ export const validarUsuario = async (req, res) => {
             .input("Usuario", sql.VarChar, Usuario)
             .input("Contrasenia", sql.VarChar, Contrasenia)
             .query(queries.validarUsuario);
+            
+            console.log(req.body);
+            console.log(result.rowsAffected[0]);
+            
+        if (result.rowsAffected[0] === 1) {
+
+            const checkRol = await pool.request()
+            .input("IdUsuario", sql.Int, result.recordset[0].ID )
+            .query(queries.validarRol)
+
+            console.log(checkRol.recordset[0].IdRol);
+
+            switch (checkRol.recordset[0].IdRol) {
+                case 1:
+                    req.session.userCliente = result.recordset[0]
+                    res.redirect('/principalCliente')
+                    break;
+                case 2:
+                    req.session.userProductor = result.recordset[0] 
+                    res.redirect('/principalProductor')
+                default:
+                    break;
+            }
+        }else {
+            console.log("LOGIN FAILED");
+            res.redirect('/login')
+        }
+    } catch (error) { 
+        res.status(500).json({ error: `"Error al encontrar usuario ${error}"` });
+    }
+}
+
+export const validarLogin = async (req,res,next) => {
+    if (req.session.userCliente || req.session.userProductor) {
+        next()
+    }else{
+        let err = new Error("Usuario no completo su Login")
+        console.log(err);
+        res.redirect("/login")
+    }
+}
+
+/*
+export const crearUsuario = async (req, res) => {
+    try {
+        const pool = await makeConnection()
+        const { Usuario, Contrasenia } = req.body;
+        
+        const result = await pool.request()
+            .input("Usuario", sql.VarChar, Usuario)
+            .input("Contrasenia", sql.VarChar, Contrasenia)
+            .query(queries.validarUsuario);
 
         const checkRol = await pool.request()
         .input("IdUsuario", sql.Int, result.recordset[0].ID )
@@ -38,32 +90,6 @@ export const validarUsuario = async (req, res) => {
         }
     } catch (error) { 
         res.status(500).json({ error: `"Error al encontrar usuario ${error}"` });
-    }
-}
-/*
-export const login = async (req, res) => {
-    const pool = await makeConnection(); 
-    const usuario = await pool.request().query(queries.obtenerUsuario)
-    const result = usuario.recordset
-
-    res.render('index.ejs',{
-        result
-    })
-}
-/*
-export const eliminarPelicula = async (req, res) => {
-    try {
-        const pool = await makeConnection()
-        const { id } = req.params;
-        
-        const result = await pool.request()
-            .input("Id", sql.Int, id)
-            .query(queries.eliminarPelicula);
-            
-            res.redirect('/');
-
-    } catch (error) {
-        res.status(500).json({ error: "Error al crear registro" });
     }
 }
 */
