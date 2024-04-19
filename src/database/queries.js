@@ -14,6 +14,8 @@ export const queries = {
     crearPersona: `INSERT INTO 
     Personas (ID, PrimerNombre, SegundoNombre, PrimerApellido, SegundoApellido, NumeroTelefono, Email, DNI, Genero, FechaNacimiento, IdDireccion)
     VALUES (@ID, @PrimerNombre, @SegundoNombre, @PrimerApellido, @SegundoApellido, @NumeroTelefono, @Email, @DNI, @Genero, @FechaNacimiento, @IdDireccion)`,
-    crearUsuario: "",
-    asignarRolUsuario: ""
+    crearUsuario: `INSERT INTO Usuarios (ID, Usuario, Contrasenia)
+    OUTPUT inserted.ID 
+    VALUES (@ID, @Usuario, @Contrasenia)`,
+    asignarRolUsuario: "INSERT INTO UsuarioRoles (ID, IdUsuario, IdRol) VALUES (@ID, @IdUsuario, @IdRol)"
 }
