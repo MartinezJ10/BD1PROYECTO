@@ -37,9 +37,9 @@
     <div class="container">
         <h1 class="display-4 text-center">Regístrate como cliente</h1>
 
-        <form action="/crearUsuario" class="row">
+        <form method="post" action="/crearUsuario" class="row">
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="form-group"> 
                     <label for="nombre1In" class="form-label">Primer nombre</label>
                     <input name="primerNombre" type="text" class="form-control" id="nombre1In" placeholder="Escribe su primer nombre">
                 </div>
@@ -72,6 +72,12 @@
                 <div class="form-group">
                     <label for="dniInput" class="form-label">DNI</label>
                     <input name="dni" type="text" class="form-control" id="dniInput" placeholder="Escribe su DNI">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="telefonoInput" class="form-label">Numero de Telefono</label>
+                    <input name="numeroTelefono" type="text" class="form-control" id="numeroTelefono" placeholder="Escribe su numero de Telefono">
                 </div>
             </div>
             <div class="col-md-6">
@@ -110,7 +116,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="idPais">Pais</label>
-                        <select class="form-control" id="selectPais" name="pais" required>
+                        <select class="form-control" id="selectPais" name="IdPais" required>
                             <option selected="selected" value="">Selecciona un Pais</option>
                             <% paises.forEach(pais => { %>
                                 <option value="<%=pais.ID%>"><%=pais.Nombre%></option>
@@ -119,29 +125,29 @@
                     </div>
                     <div class="form-group">
                         <label for="idDepartamento">Departamento</label>
-                        <select class="form-control" id="selectDepartamento" name="departamento" required>
+                        <select class="form-control" id="selectDepartamento" name="IdDepartamento" required>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="idMunicipio">Municipio</label>
-                        <select class="form-control" id="selectMunicipio" name="municipio" required>
+                        <select class="form-control" id="selectMunicipio" name="IdMunicipio" required>
                         </select>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="idAldea">Aldea</label>
-                        <select class="form-control" id="selectAldea" name="aldea" required>
+                        <select class="form-control" id="selectAldea" name="IdAldea" required>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="idColonia">Colonia</label>
-                        <select class="form-control" id="selectColonia" name="colonia" required>
+                        <select class="form-control" id="selectColonia" name="IdColonia" required>
                         </select>
                     </div>
                 <div class="form-group">
                     <label for="idReferencia">Referencia</label>
-                    <textarea type="text" class="form-control" id="idReferencia" placeholder="Danos una referencia" cols="25" rows="3" required></textarea>
+                    <textarea name="Referencia" type="text" class="form-control" id="idReferencia" placeholder="Danos una referencia" cols="25" rows="3" required></textarea>
                 </div>
                 
                 </div>

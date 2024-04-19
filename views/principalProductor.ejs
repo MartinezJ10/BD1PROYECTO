@@ -1,11 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .thumbnail {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+    body {
+      background-image: url('Images/estante.avif'); /* Reemplaza 'https://example.com/imagen-de-fondo.jpg' con la URL de tu imagen de fondo */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      color: #ffffff; /* Cambia el color del texto si es necesario */
+    }
+
+    .container {
+      background-color: rgba(141, 139, 139, 0.6); /* Fondo semi-transparente para hacer el texto más legible */
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .thumbnail {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+
+
+
+  </style>
 </head>
 <body>
-    <h1>Bienvenido<%=user.Usuario %></h1>
+
+  
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Productor de Granos Básicos</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="productos.html">Productos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="inventarios.html">Inventario</a> 
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contacto.html">Pedidos</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Productos</h2>
+    <div class="d-flex justify-content-center">
+      <div class="col-md-6">
+        <form>
+          <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+          </div>
+          <div class="form-group">
+            <label for="precio">Precio:</label>
+            <input type="number" class="form-control" id="precio" name="precio" required>
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="codigo">Código:</label>
+            <input type="text" class="form-control" id="codigo" name="codigo" required>
+          </div>
+          <div class="form-group">
+            <label for="impuesto">Impuesto:</label>
+            <input type="number" class="form-control" id="impuesto" name="impuesto" required>
+          </div>
+          <div class="form-group">
+            <label for="id_medida">Medida:</label>
+            <select class="form-control" id="id_medida" name="id_medida" required>
+              <option value="">Selecciona una opción</option>
+              <!-- Aquí puedes agregar opciones dinámicamente desde la base de datos -->
+              <option value="1">Medida 1</option>
+              <option value="2">Medida 2</option>
+              <option value="3">Medida 3</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tipo_producto">Tipo Producto:</label>
+            <select class="form-control" id="tipo_producto" name="tipo_producto" onchange="updateGallery()" required>
+              <option value="">Selecciona una opción</option>
+              <!-- Aquí puedes agregar opciones dinámicamente desde la base de datos -->
+              <option value="1">Granos Basicos</option>
+              <option value="2">Lacteos</option>
+              <option value="3">Verduras</option>
+            </select>
+            <br>
+            <div id="gallery" class="row"></div>
+            <div class="form-group mt-3">
+              <label for="imagen">Subir imagen:</label>
+              <input type="file" class="form-control-file" id="imagen" name="imagen">
+            </div>
+
+          </div>
+          <div id="gallery" class="row"></div>
+          <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    // Rutas locales de las imágenes
+    var imageGroups = [
+      ["Images/arroz.jpg", "Images/frijoles.jpg", "Images/maiz.avif"], // Imágenes para Granos Básicos
+      ["Images/Leche.jpg", "Images/cuajada.jpg", "Images/mantequilla.jpg","Images/queso.jpeg"], // Imágenes para Lácteos
+      ["Images/cebolla.webp", "Images/chiledulce.jpeg", "Images/papas.avif","Images/tomates.webp"]  // Imágenes para Verduras
+    ];
+
+    function updateGallery() {
+      var selectedType = document.getElementById('tipo_producto').value;
+      var gallery = document.getElementById('gallery');
+      gallery.innerHTML = ''; // Limpiar la galería actual
+
+      imageGroups[selectedType - 1].forEach(function(imageSrc) {
+        var img = document.createElement('img');
+        img.src = imageSrc;
+        img.className = 'thumbnail mr-2 mb-2';
+        img.onclick = function() {
+          selectImage(this);
+        };
+        gallery.appendChild(img);
+      });
+    }
+
+    function selectImage(selectedImg) {
+      var imgs = document.querySelectorAll('.thumbnail');
+      imgs.forEach(function(img) {
+        img.classList.remove('border', 'border-primary');
+      });
+      selectedImg.classList.add('border', 'border-primary');
+    }
+
+    // Actualizar la galería al cargar la página
+    window.onload = updateGallery;
+  </script>
 </body>
 </html>

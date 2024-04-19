@@ -88,37 +88,83 @@ export const obtenerColonias = async (req,res) => {
     }
 }
 
+export const crearRegistroUsuario = async (req, res) => {
+    try {
+    } catch (error) {
+        res.send(500).json({ error: `Error al crear registro de usuario: ${error.message}` });
+    }
 
+}
 
-
-export const crearUsuario = async (req, res) => {
+const crearDireccion = async (req, res) => {
     try {
         const pool = await makeConnection()
-        const { Usuario, Contrasenia } = req.body;
+
+        let ID = Math.random() * (10000 - 10) + 10 //ELIMINAR LUEGO
+
+        const {IdColonia, IdAldea, IdMunicipio, IdDepartamento, IdPais, Referencia} = req.body; 
+        const qryDirecciones = await pool.request()
+        .input("ID", sql.Int, ID)
+        .input("IdColonia", sql.Int, IdColonia)
+        .input("IdAldea", sql.Int, IdAldea)
+        .input("IdMunicipio", sql.Int, IdMunicipio)
+        .input("IdDepartamento", sql.Int, IdDepartamento)
+        .input("IdPais", sql.Int, IdPais)
+        .input("Referencia", sql.VarChar, Referencia)
+        .query(queries.crearDireccion)
         
-        const result = await pool.request()
-            .input("Usuario", sql.VarChar, Usuario)
-            .input("Contrasenia", sql.VarChar, Contrasenia)
-            .query(queries.validarUsuario);
+        const insertedID = qryDirecciones.recordset[0].ID
+        return insertedID
 
-        const checkRol = await pool.request()
-        .input("IdUsuario", sql.Int, result.recordset[0].ID )
-        .query(queries.validarRol)
+    } catch (error) {
+        throw new Error(`Error al crear dirección: ${error.message}`);
+    }
+}
 
-        if (result.rowsAffected == 1) {
-            switch (checkRol.recordset[0].IdRol) {
-                case 1:
-                    res.redirect('/principalCliente')
-                    break;
-                case 2:
-                    res.redirect('/principalProductor')
-                default:
-                    break;
-            }
-        }else {
-            res.redirect('/loginProductor')
-        }
-    } catch (error) { 
-        res.status(500).json({ error: `"Error al encontrar usuario ${error}"` });
+export const crearPersona = async (req, res) => {
+    try {
+        const pool = await makeConnection()
+
+        let ID = Math.random() * (10000 - 10) + 10 //ELIMINAR LUEGO
+        
+        console.log(req.body); 
+        const idDireccion = await crearDireccion(req,res)
+
+        const {primerNombre, segundoNombre, primerApellido, segundoApellido, numeroTelefono, email, dni, genero, fechaNacimiento} = req.body; 
+        const qryPersonas = await pool.request()
+        .input("ID", sql.Int, ID)
+        .input("PrimerNombre", sql.VarChar, primerNombre)
+        .input("SegundoNombre", sql.VarChar, segundoNombre)
+        .input("PrimerApellido", sql.VarChar, primerApellido)
+        .input("SegundoApellido", sql.VarChar, segundoApellido)
+        .input("NumeroTelefono", sql.VarChar, numeroTelefono)
+        .input("Email", sql.VarChar, email)
+        .input("DNI", sql.VarChar, dni)
+        .input("Genero", sql.Char, genero)
+        .input("FechaNacimiento", sql.Date, fechaNacimiento)
+        .input("IdDireccion", sql.Int, idDireccion)
+        .query(queries.crearPersona)
+
+        console.log(qryPersonas);
+
+        res.redirect("/login")
+    } catch (error) {
+        throw new Error(`Error al crear persona: ${error.message}`);
+    }
+}
+
+const asignarRolUsuario = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+}
+
+const crearUsuario = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        
     }
 }

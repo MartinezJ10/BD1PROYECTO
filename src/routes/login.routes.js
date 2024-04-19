@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getIndex, validarLogin, validarUsuario } from "../controllers/login.controller.js"
-import { crearUsuario, dataRegistro, obtenerAldeas, obtenerColonias, obtenerDepartamentos, obtenerMunicipios } from "../controllers/registro.controller.js";
+import { crearPersona, dataRegistro, obtenerAldeas, obtenerColonias, obtenerDepartamentos, obtenerMunicipios } from "../controllers/registro.controller.js";
 
 const router = Router();
 
@@ -25,8 +25,8 @@ router.get('/principalCliente',validarLogin, (req, res) => {
 });
 
 router.post('/validarLogin', validarUsuario)
-
-router.post('/crearUsuario', crearUsuario)
+  
+router.post('/crearUsuario', crearPersona)
 
 
 export default router;
