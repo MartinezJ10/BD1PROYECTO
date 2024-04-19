@@ -11,7 +11,9 @@ app.use(session({
     resave: false, 
     saveUninitialized: false
   }));
-app.use(express.static("views"))
+
+app.use(express.static('public'))
+
 app.set("view engine", "ejs")
 app.use(express.json()) // los json obtenidos seran aceptados por req.body
 app.use(express.urlencoded({extended:false}))

@@ -8,7 +8,7 @@ export const getIndex = async (req,res) => {
         console.error("Error en getIndex:", error);
         res.status(500).send("Ha ocurrido un error en el servidor.");
     }
-}
+} 
 export const validarUsuario = async (req, res) => {
     try {
         const pool = await makeConnection()
@@ -59,37 +59,3 @@ export const validarLogin = async (req,res,next) => {
         res.redirect("/login")
     }
 }
-
-/*
-export const crearUsuario = async (req, res) => {
-    try {
-        const pool = await makeConnection()
-        const { Usuario, Contrasenia } = req.body;
-        
-        const result = await pool.request()
-            .input("Usuario", sql.VarChar, Usuario)
-            .input("Contrasenia", sql.VarChar, Contrasenia)
-            .query(queries.validarUsuario);
-
-        const checkRol = await pool.request()
-        .input("IdUsuario", sql.Int, result.recordset[0].ID )
-        .query(queries.validarRol)
-
-        if (result.rowsAffected == 1) {
-            switch (checkRol.recordset[0].IdRol) {
-                case 1:
-                    res.redirect('/principalCliente')
-                    break;
-                case 2:
-                    res.redirect('/principalProductor')
-                default:
-                    break;
-            }
-        }else {
-            res.redirect('/loginProductor')
-        }
-    } catch (error) { 
-        res.status(500).json({ error: `"Error al encontrar usuario ${error}"` });
-    }
-}
-*/

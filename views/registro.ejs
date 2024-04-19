@@ -20,14 +20,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #28a745; /* Green color for demonstration purposes */
+            background-color: #28a745; 
         }
 
         .container {
-            background-color: white; /* Set the container background color */
+            background-color: white; 
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add shadow for better visualization */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -37,126 +37,114 @@
     <div class="container">
         <h1 class="display-4 text-center">Regístrate como cliente</h1>
 
-        <form action="/nuevoUsuario" class="row">
+        <form action="/crearUsuario" class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="nombre1In" class="form-label">Primer nombre</label>
-                    <input type="text" class="form-control" id="nombre1In" placeholder="Escribe su primer nombre">
+                    <input name="primerNombre" type="text" class="form-control" id="nombre1In" placeholder="Escribe su primer nombre">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="nombre2In" class="form-label">Segundo nombre</label>
-                    <input type="text" class="form-control" id="nombre2In" placeholder="Escribe su segundo nombre">
+                    <input name="segundoNombre" type="text" class="form-control" id="nombre2In" placeholder="Escribe su segundo nombre">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="apellido1In" class="form-label">Primer Apellido</label>
-                    <input type="text" class="form-control" id="apellido1In" placeholder="Escribe su primer apellido">
+                    <input name="primerApellido" type="text" class="form-control" id="apellido1In" placeholder="Escribe su primer apellido">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="apellido2In" class="form-label">Segundo Apellido</label>
-                    <input type="text" class="form-control" id="apellido2In" placeholder="Escribe su segundo apellido">
+                    <input name="segundoApellido" type="text" class="form-control" id="apellido2In" placeholder="Escribe su segundo apellido">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="emailInput" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="emailInput" placeholder="Escribe su email">
+                    <input name="email" type="email" class="form-control" id="emailInput" placeholder="Escribe su email">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="dniInput" class="form-label">DNI</label>
-                    <input type="text" class="form-control" id="dniInput" placeholder="Escribe su DNI">
+                    <input name="dni" type="text" class="form-control" id="dniInput" placeholder="Escribe su DNI">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="genero">Género</label>
-                    <select class="form-control" id="genero" required>
-                        <option value="1">M</option>
-                        <option value="2">F</option>
+                    <select name="genero" class="form-control" id="genero" required>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
                     </select>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="FechaDeNacimientoInput" class="form-label">Fecha de Nacimiento</label>
-                    <input type="date" class="form-control" id="FechaDeNacimientoInput" placeholder="Fecha de Nacimiento"><br>
+                    <input name="fechaNacimiento" type="date" class="form-control" id="FechaDeNacimientoInput" placeholder="Fecha de Nacimiento"><br>
                 </div>
             </div>
             <div class="col-md-6">
                 <label for="usuario">Usuario</label>
-                <input type="text" class="form-control" id="usuario" placeholder="Ingrese el nombre de usuario" required>
+                <input name="usuario" type="text" class="form-control" id="usuario" placeholder="Ingrese el nombre de usuario" required>
             </div>
             <div class="col-md-6">
                 <label for="contrasenia">Contraseña</label>
-                <input type="password" class="form-control" id="contrasenia" placeholder="Ingrese la contraseña" required>
+                <input name="contrasenia" type="password" class="form-control" id="contrasenia" placeholder="Ingrese la contraseña" required>
             </div>
             <div class="col-md-6">
-                <label for="idRol">Rol</label>
-                <select id="idRol" class="form-control" required>
-                    <option value="1">Admin</option>
-                    <option value="2">Usuario Normal</option>
+                <label for="idRol">¿Qué deseas ser?</label>
+                <select name="rol" id="idRol" class="form-control" required>
+                    <% roles.forEach(rol => { %>
+                        <option value="<%=rol.ID%>"><%=rol.Nombre  %></option>
+                    <%  });  %>
                 </select>
             </div>
             <div class="row">
-                <h4>Indicanos tu direccion</h4>
+                <h4>Indicanos tu dirección</h4>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="idPais">Pais</label>
-                        <select class="form-control" id="idPais" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <!--  -->
+                        <select class="form-control" id="selectPais" name="pais" required>
+                            <option selected="selected" value="">Selecciona un Pais</option>
+                            <% paises.forEach(pais => { %>
+                                <option value="<%=pais.ID%>"><%=pais.Nombre%></option>
+                            <%  });  %>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="idDepartamento">Departamento</label>
-                        <select class="form-control" id="idDepartamento" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <!--  -->
+                        <select class="form-control" id="selectDepartamento" name="departamento" required>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="idMunicipio">Municipio</label>
-                        <select class="form-control" id="idMunicipio" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <!--  -->
+                        <select class="form-control" id="selectMunicipio" name="municipio" required>
                         </select>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="idAldea">Aldea</label>
-                        <select class="form-control" id="idAldea" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <!--  -->
+                        <select class="form-control" id="selectAldea" name="aldea" required>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="idColonia">Colonia</label>
-                        <select class="form-control" id="idColonia" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <!-- -->
+                        <select class="form-control" id="selectColonia" name="colonia" required>
                         </select>
                     </div>
                 <div class="form-group">
                     <label for="idReferencia">Referencia</label>
-                    <textarea type="text" class="form-control" id="idReferencia" placeholder="Danos una referencia" cols="30" rows="4" required></textarea>
+                    <textarea type="text" class="form-control" id="idReferencia" placeholder="Danos una referencia" cols="25" rows="3" required></textarea>
                 </div>
                 
                 </div>
-              
-                    
             </div>
             <div class="row justify-content-center">
                     <div class="col-auto">
@@ -165,10 +153,120 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            
-        </form>
-    </div>
+            </form>
+        </div>
 </body>
+<script>
+    
+//GENERAR DE FORMA ITERATIVA LOS ELEMENTOS DEL DEPARTAMENTOS CON BASE EN EL PAIS SELECCIONADO
+document.addEventListener('DOMContentLoaded',obtenerDepartamentos);
+document.addEventListener('DOMContentLoaded',obtenerMunicipios);
+document.addEventListener('DOMContentLoaded',obtenerAldeas);
+document.addEventListener('DOMContentLoaded',obtenerColonias);
+
+function obtenerDepartamentos() {
+    const selectPaises = document.getElementById('selectPais');
+    const selectDepartamento = document.getElementById('selectDepartamento');
+
+    selectPaises.addEventListener('change', function() {
+        const seleccionPais = selectPaises.value;
+
+        fetch(`/departamento?pais=${seleccionPais}`)
+            .then(response => response.json())
+            .then(departamento => {
+                selectDepartamento.innerHTML = '';
+                generarOpcionDefault(selectDepartamento)
+
+                departamento.deptos.forEach(depto => {
+                    const optionElement = document.createElement('option');
+                    optionElement.textContent = depto.Nombre;
+                    optionElement.value = depto.ID;
+                    selectDepartamento.appendChild(optionElement);
+                });
+            })
+            .catch(error => console.error('Error fetching departments:', error));
+    });
+}
+
+function obtenerMunicipios() {
+    const selectDepartamento = document.getElementById('selectDepartamento');
+    const selectMunicipio = document.getElementById('selectMunicipio');
+
+    selectDepartamento.addEventListener('change', function() {
+        const seleccionDepartamento = selectDepartamento.value;
+
+        fetch(`/municipio?departamento=${seleccionDepartamento}`)
+            .then(response => response.json())
+            .then(municipio => {
+                selectMunicipio.innerHTML = '';
+                generarOpcionDefault(selectMunicipio)
+
+                municipio.municipios.forEach(municipio => {
+                    const optionElement = document.createElement('option');
+                    optionElement.textContent = municipio.Nombre;
+                    optionElement.value = municipio.ID;
+                    selectMunicipio.appendChild(optionElement);
+                });
+            })
+            .catch(error => console.error('Error fetching municipios:', error));
+    });
+}
+
+function obtenerAldeas() {
+    const selectMunicipio = document.getElementById('selectMunicipio');
+    const selectAldea = document.getElementById('selectAldea');
+
+    selectMunicipio.addEventListener('change', function() {
+        const seleccionMunicipio = selectMunicipio.value;
+
+        fetch(`/aldea?municipio=${seleccionMunicipio}`)
+            .then(response => response.json())
+            .then(aldea => {
+                selectAldea.innerHTML = '';
+                generarOpcionDefault(selectAldea)
+
+                aldea.aldeas.forEach(aldea => {
+                    const optionElement = document.createElement('option');
+                    optionElement.textContent = aldea.Nombre;
+                    optionElement.value = aldea.ID;
+                    selectAldea.appendChild(optionElement);
+                });
+            })
+            .catch(error => console.error('Error fetching aldeas:', error));
+    });
+}
+
+function obtenerColonias() {
+    const selectAldea = document.getElementById('selectAldea');
+    const selectColonia = document.getElementById('selectColonia');
+
+    selectAldea.addEventListener('change', function() {
+        const seleccionAldea = selectAldea.value;
+
+        fetch(`/colonia?aldea=${seleccionAldea}`)
+            .then(response => response.json())
+            .then(colonia => {
+                selectColonia.innerHTML = '';
+                generarOpcionDefault(selectColonia)
+
+                colonia.colonias.forEach(colonia => {
+                    const optionElement = document.createElement('option');
+                    optionElement.textContent = colonia.Nombre;
+                    optionElement.value = colonia.ID;
+                    selectColonia.appendChild(optionElement);
+                });
+            })
+            .catch(error => console.error('Error fetching colonias:', error));
+    });
+}
+
+function generarOpcionDefault(selectObject) {
+    const optionElement = document.createElement('option');
+    optionElement.textContent = "SELECCIONA UNA OPCION";
+    optionElement.value = "0";
+    selectObject.appendChild(optionElement);
+}
+
+</script>
 
 </html>
