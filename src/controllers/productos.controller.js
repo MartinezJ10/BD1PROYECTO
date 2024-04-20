@@ -57,6 +57,8 @@ export const crearProductoProductor = async (req, res) => {
         .input("IdUsuarioProductor", sql.Int, IdUsuarioProductor)
         .query(queries.crearProductoProductor)
 
+        await crearInventario(req,res,IdProducto)
+
         res.redirect("/principalProductor")
     } catch (error) {
         res.status(500).json({ error: `"Error al crear Producto-Productor ${error}"` });
@@ -80,6 +82,25 @@ export const obtenerDefinicionProductos = async (req, res) => {
     }
 }
 
+export const obtenerProductoProductor = async (req,res) => {
+    try {
+        const pool = await makeConnection()
+        const IdUsuarioProductor = req.session.userProductor.ID; 
+
+        const qryObtenerProductoProductor = await pool.request()
+        .input("IdUsuarioProductor",sql.Int, IdUsuarioProductor)
+        .query(queries.obtenerProductoProductor)
+
+        const data = {
+            productosProductor:qryObtenerProductoProductor.recordset,
+            user:req.session.userProductor
+        } 
+        console.log(data);
+        res.render('principalProductor.ejs', data)
+    } catch (error) {
+        res.status(500).json({ error: `"Error al encontrar producto-productor ${error}"` });
+    }
+}
 
 export const obtenerProductos = async (req,res) => {
     try {
@@ -101,6 +122,33 @@ export const obtenerProductos = async (req,res) => {
 
     } catch (error) {
         res.status(500).json({ error: `"Error al encontrar DATAINICIALCLIENTE ${error}"` });
+
+    }
+}
+
+const crearInventario = async (req,res,IdProducto) => {
+    try {
+        const pool = await makeConnection()
+
+        console.log(req.session);
+        console.log(req.body);
+        const {cantidad,descripcion} = req.body
+
+        const IdUsuarioProductor = req.session.userProductor.ID 
+        const IdEstablecimiento = req.session.establecimientoID
+
+        const qryInventario = await pool.request()
+        .input("IdProducto", sql.Int, IdProducto)
+        .input("IdProductor", sql.Int, IdUsuarioProductor)
+        .input("IdTipoMovimiento", sql.Int, IdUsuarioProductor)
+        .input("IdEstablecimiento", sql.Int, IdEstablecimiento)
+        .input("Cantidad", sql.Int, cantidad)
+        .input("Fecha", sql.Date, Date.now())
+        .input("Referencia", sql.VarChar, descripcion)
+        .query(queries.crearInventario)
+
+    } catch (error) {
+        res.status(500).json({ error: `"Error al encontrar Inventario ${error}"` });
 
     }
 }

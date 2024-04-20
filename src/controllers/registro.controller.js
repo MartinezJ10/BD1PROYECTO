@@ -92,7 +92,7 @@ export const crearRegistroUsuario = async (req, res) => {
 
 }
 
-const crearDireccion = async (req, res) => {
+export const crearDireccion = async (req, res) => {
     try {
         const pool = await makeConnection()
 
@@ -138,7 +138,7 @@ export const crearPersona = async (req, res) => {
         const idUsuario = await crearUsuario(req,res,insertedID)
         await asignarRolUsuario(req,res,idUsuario)
         
-        res.redirect("/login")
+        res.redirect("/login") 
 
     } catch (error) {
         throw new Error(`Error al crear persona: ${error.message}`);

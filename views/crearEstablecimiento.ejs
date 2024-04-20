@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Establecimientos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Registro de Establecimientos</h2>
+        <form action="/crearEstablecimiento" method="post">
+            <div class="row">
+                <h4>Indicanos tu dirección</h4>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="idPais">Pais</label>
+                        <select class="form-control" id="selectPais" name="IdPais" required>
+                            <option selected="selected" value="">Selecciona un Pais</option>
+                            <% paises.forEach(pais => { %>
+                                <option value="<%=pais.ID%>"><%=pais.Nombre%></option>
+                            <%  });  %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="idDepartamento">Departamento</label>
+                        <select class="form-control" id="selectDepartamento" name="IdDepartamento" required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="idMunicipio">Municipio</label>
+                        <select class="form-control" id="selectMunicipio" name="IdMunicipio" required>
+                        </select>
+                    </div>
+                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="idAldea">Aldea</label>
+                        <select class="form-control" id="selectAldea" name="IdAldea" required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="idColonia">Colonia</label>
+                        <select class="form-control" id="selectColonia" name="IdColonia" required>
+                        </select>
+                    </div>
+                <div class="form-group">
+                    <label for="idReferencia">Referencia</label>
+                    <textarea name="Referencia" type="text" class="form-control" id="idReferencia" placeholder="Danos una referencia" cols="25" rows="3" required></textarea>
+                </div>
+            </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="idTipoEstablecimiento">Tipo de Establecimiento</label>
+                <select name="tipoEstablecimiento" class="form-control" id="idTipoEstablecimiento" required>
+                    <% tiposEstablecimiento.forEach(tipo => { %>
+                        <option value="<%=tipo.ID%>"><%=tipo.Nombre%></option>
+                    <%  });  %>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="horarioApertura">Horario de Apertura</label>
+                <input type="time" class="form-control" id="horarioApertura"name="horarioApertura" required>
+            </div>
+            <div class="form-group">
+                <label for="horarioCierre">Horario de Cierre</label>
+                <input type="time" class="form-control" id="horarioCierre"name="horarioCierre" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Establecimiento</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+<script src="js/main.js"></script>
+</body>
+</html>

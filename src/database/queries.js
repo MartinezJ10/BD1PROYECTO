@@ -27,8 +27,15 @@ export const queries = {
     VALUES (@Precio, @Descripcion, @Codigo, @IdMedida, @IdDefProducto, @RutaImagen)`,
     crearProductoProductor: "INSERT INTO Producto_Productor (IdProducto,IdUsuarioProductor) VALUES (@IdProducto,@IdUsuarioProductor)",
     obtenerProductoProductor: `SELECT P.* FROM Producto_Productor PP
-    JOIN Productos P ON PP.IdProducto = P.ID
-    WHERE PP.IdUsuario_productor = @IdUsuario_productor`,
-    obtenerProductos: `SELECT * FROM Productos`
-
+    JOIN Productos P 
+    ON PP.IdProducto = P.ID
+    WHERE PP.IdUsuarioProductor = @IdUsuarioProductor`,
+    obtenerProductos: `SELECT * FROM Productos`,
+    obtenerTipoEstablecimiento: "SELECT * FROM TipoEstablecimientos",
+    crearEstablecimiento: `INSERT INTO Establecimientos (IdDireccion, IdTipoEstablecimiento, HorarioApertura, HorarioCierre)
+    OUTPUT inserted.ID
+    VALUES (@IdDireccion, @IdTipoEstablecimiento, @HorarioApertura, @HorarioCierre);`,
+    crearInventario: `INSERT INTO Inventario(IdProducto, IdProductor, IdTipoMovimiento, IdEstablecimiento, Cantidad, Fecha, Referencia)
+    VALUES (@IdProducto, @IdProductor, @IdTipoMovimiento, @IdEstablecimiento, @Cantidad, @Fecha, @Referencia)
+    `
 }
