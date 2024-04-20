@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .thumbnail {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+    body {
+      background-image: url('Images/estante.avif'); /* Reemplaza 'https://example.com/imagen-de-fondo.jpg' con la URL de tu imagen de fondo */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      color: #ffffff; /* Cambia el color del texto si es necesario */
+    }
+
+    .container {
+      background-color: rgba(2, 68, 19, 0.7); /* Fondo semi-transparente para hacer el texto más legible */
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .thumbnail {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+
+  </style>
+</head>
+<body>
+ 
+  
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Productor</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/principalProductor">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/agregarProductos">Productos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="inventarios.html">Inventario</a> 
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contacto.html">Pedidos</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Productos</h2>
+    <div class="d-flex justify-content-center">
+      <div class="col-md-6">
+        <form action="/crearProducto" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="tipo">¿Qué tipo de producto desea crear?</label>
+            <select name="tipoProducto" id="selectTipoProducto">
+                <% tipoProductos.forEach(tipo => { %>
+                  <option value="<%=tipo.ID%>"><%=tipo.Nombre  %></option>
+              <%  });  %>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="nombre">Producto:</label>
+            <select name="definicionProducto" id="selectDefinicionProducto">
+                <option value=""></option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="precio">Precio:</label>
+            <input type="text" class="form-control" id="precio" name="precio" required>
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="codigo">Código:</label>
+            <input type="text" class="form-control" id="codigo" name="codigo" required>
+          </div>
+          <div class="form-group">
+            <label for="id_medida">Medida:</label>
+            <select class="form-control" id="id_medida" name="medida" required>
+              <option value="">Selecciona una opción</option>
+                <% medidas.forEach(medida => { %>
+                  <option value="<%=medida.ID%>"><%=medida.Nombre  %></option>
+              <%  });  %>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="file" name="rutaImagen">
+          <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+ <!-- jQuery -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <!-- -Bootstrap JS -->
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+<script>
+  document.addEventListener('DOMContentLoaded',obtenerProductoDefinicion);
+
+function obtenerProductoDefinicion() {
+    const selectTipoProducto = document.getElementById('selectTipoProducto');
+    const selectDefinicionProducto = document.getElementById('selectDefinicionProducto');
+
+    selectTipoProducto.addEventListener('change', function() {
+        const seleccionTipo = selectTipoProducto.value;
+
+        fetch(`/definicionProducto?tipo=${seleccionTipo}`)
+            .then(response => response.json())
+            .then(definicionProducto => {
+                selectDefinicionProducto.innerHTML = '';
+                generarOpcionDefault(selectDefinicionProducto)
+
+                definicionProducto.dfnProductos.forEach(productos => {
+                    const optionElement = document.createElement('option');
+                    optionElement.textContent = productos.Nombre;
+                    optionElement.value = productos.ID;
+                    selectDefinicionProducto.appendChild(optionElement);
+                });
+            })
+            .catch(error => console.error('Error fetching definicionProductos:', error));
+    });
+}
+function generarOpcionDefault(selectObject) {
+    const optionElement = document.createElement('option');
+    optionElement.textContent = "SELECCIONA UNA OPCION";
+    optionElement.value = "0";
+    selectObject.appendChild(optionElement);
+}
+</script>

@@ -9,6 +9,7 @@ export const getIndex = async (req,res) => {
         res.status(500).send("Ha ocurrido un error en el servidor.");
     }
 } 
+
 export const validarUsuario = async (req, res) => {
     try {
         const pool = await makeConnection()
@@ -58,4 +59,18 @@ export const validarLogin = async (req,res,next) => {
         console.log(err);
         res.redirect("/login")
     }
+}
+
+export const logout = async (req,res) => {
+    if (req.session) {
+        req.session.destroy(err => {
+          if (err) {
+            res.status(400).send('Unable to log out')
+          } else {
+            res.redirect("/login")
+          }
+        });
+      } else {
+        res.end()
+      }
 }

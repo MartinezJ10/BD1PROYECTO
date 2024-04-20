@@ -28,7 +28,6 @@ export const obtenerDepartamentos = async (req,res) => {
 
         const deptos = {deptos: qryDeptos.recordset}
 
-        console.log(deptos);
         res.json(deptos)
     } catch (error) {
         res.status(500).json({ error: `"Error al encontrar direcciones ${error}"` });
@@ -46,7 +45,6 @@ export const obtenerMunicipios = async (req,res) => {
         console.log(qryMunicipios);
 
         const municipios = {municipios: qryMunicipios.recordset}
-        console.log(municipios);
 
         res.json(municipios)
     } catch (error) {
@@ -63,7 +61,6 @@ export const obtenerAldeas = async (req,res) => {
         .query(queries.obtenerAldeas)
 
         const aldeas = {aldeas: qryAldeas.recordset}
-        console.log(aldeas);
 
         res.json(aldeas)
     } catch (error) {
@@ -80,7 +77,6 @@ export const obtenerColonias = async (req,res) => {
         .query(queries.obtenerColonias)
 
         const colonias = {colonias: qryColonias.recordset}
-        console.log(colonias);
 
         res.json(colonias)
     } catch (error) {
@@ -100,11 +96,8 @@ const crearDireccion = async (req, res) => {
     try {
         const pool = await makeConnection()
 
-        let ID = Math.random() * (10000 - 10) + 10 //ELIMINAR LUEGO
-
         const {IdColonia, IdAldea, IdMunicipio, IdDepartamento, IdPais, Referencia} = req.body; 
         const qryDirecciones = await pool.request()
-        .input("ID", sql.Int, ID)
         .input("IdColonia", sql.Int, IdColonia)
         .input("IdAldea", sql.Int, IdAldea)
         .input("IdMunicipio", sql.Int, IdMunicipio)
@@ -125,14 +118,10 @@ export const crearPersona = async (req, res) => {
     try {
         const pool = await makeConnection()
 
-        let ID = Math.random() * (10000 - 10) + 10 //ELIMINAR LUEGO
-        
-        console.log(req.body); 
         const idDireccion = await crearDireccion(req,res)
 
         const {primerNombre, segundoNombre, primerApellido, segundoApellido, numeroTelefono, email, dni, genero, fechaNacimiento} = req.body; 
         const qryPersonas = await pool.request()
-        .input("ID", sql.Int, ID)
         .input("PrimerNombre", sql.VarChar, primerNombre)
         .input("SegundoNombre", sql.VarChar, segundoNombre)
         .input("PrimerApellido", sql.VarChar, primerApellido)
@@ -145,54 +134,67 @@ export const crearPersona = async (req, res) => {
         .input("IdDireccion", sql.Int, idDireccion)
         .query(queries.crearPersona)
 
-        console.log(qryPersonas);
-        await asignarRolUsuario(req,res)
+        const insertedID = qryPersonas.recordset[0].ID
+        const idUsuario = await crearUsuario(req,res,insertedID)
+        await asignarRolUsuario(req,res,idUsuario)
+        
         res.redirect("/login")
+
     } catch (error) {
         throw new Error(`Error al crear persona: ${error.message}`);
     }
 }
 
-const asignarRolUsuario = async (req, res) => {
+const asignarRolUsuario = async (req, res,idUsuario) => {
     try {
-        const idUsuario = await crearUsuario(req,res)
         const pool = await makeConnection()
 
-        let ID = Math.random() * (10000 - 10) + 10 //ELIMINAR LUEGO
-    
         const {rol} = req.body; 
         const qryRolUsuario = await pool.request()
-        .input("ID", sql.Int, ID)
         .input("IdUsuario", sql.Int, idUsuario)
         .input("IdRol", sql.Int, rol)
         .query(queries.asignarRolUsuario)
 
-        console.log(qryRolUsuario);
-    } catch (error) {
+        } catch (error) {
         throw new Error(`Error al asignar rol: ${error.message}`);
 
     }
 }
 
-const crearUsuario = async (req, res) => {
+const crearUsuario = async (req, res,idPersona) => {
     try {
         const pool = await makeConnection()
 
-        let ID = Math.random() * (10000 - 10) + 10 //ELIMINAR LUEGO
-    
         const {usuario,contrasenia} = req.body; 
         const qryUsuarios = await pool.request()
-        .input("ID", sql.Int, ID)
         .input("Usuario", sql.VarChar, usuario)
         .input("Contrasenia", sql.VarChar, contrasenia)
+        .input("IdPersona", sql.Int, idPersona)
         .query(queries.crearUsuario)
 
-        console.log(qryUsuarios);
         const insertedID = qryUsuarios.recordset[0].ID
         return insertedID
 
     } catch (error) {
         throw new Error(`Error al crear usuario: ${error.message}`);
+
+    }
+}
+
+const crearCliente = async (req,res) => {
+    try {
+        
+    } catch (error) {
+        throw new Error(`Error al crear usuario: ${error.message}`);
+
+    }
+}
+
+const crearProductor = async (req,res) => {
+    try {
+        
+    } catch (error) {
+        throw new Error(`Error al crear Productor: ${error.message}`);
 
     }
 }
