@@ -7,6 +7,16 @@
     <!-- Agregamos Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        a{
+            text-decoration: none; 
+            color: inherit;
+        }
+        a:hover {
+            text-decoration: none; 
+
+        color: #1b6830; 
+        transition: 5ms;
+}
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -74,18 +84,9 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#" style="color: white;">Productos</a>
+                        <a class="nav-link" href="#" style="color: white;">Mis Pedidos</a>
 
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" style="color: white;">Tipo de Producto</a>
-                        <ul class="product-list">
-                            <%tipoProductos.forEach(tipo => { %>
-                                <li><%=tipo.Nombre%></li>
-                            <%  });  %>
-                        </ul>
-                    </li>
-                                       
+                    </li>            
                 </ul>
                 <a href="pedidos.html" class="btn btn-outline-light">
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -121,14 +122,17 @@
         <div class="row">
             <% productos.forEach(producto => { %>
                 <div class="col-md-4">
-                    <div class="product">
-                        <img src="<%=producto.RutaImagen%>" alt="Producto <%=producto.ID  %>">
-                        <h2><%= producto.Nombre %></h2>
-                        <p><%= producto.Descripcion %></p>
-                        <p><%= producto.Precio %></p> 
-                    </div>
-                </div><%  });  %>
-        </div>
+                <a href="/productoSeleccionado?IdProducto=<%=producto.ProductoID%>">
+                        <div class="product">
+                            <img src="<%=producto.RutaImagen%>" alt="Producto <%=producto.ID  %>">
+                            <h2><%= producto.Nombre %></h2>
+                            <p><strong>@<%= producto.PrimerNombre %>_ jh<%=producto.PrimerApellido %></strong></p>
+                            <h5> L.<%= producto.Precio %></h5> 
+                        </div>
+                    </a>
+                </div>
+            <%  });  %> 
+            </div>
     </section>
 </body>
 </html>

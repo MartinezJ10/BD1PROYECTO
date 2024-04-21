@@ -8,11 +8,37 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Productor</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/principalProductor">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/agregarProductos">Agregar Productos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/mostrarInventarios">Inventario</a> 
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/nuevoEstablecimiento">Agregar Establecimiento</a> 
+            </li>
+            <li class="nav-item">
+              <a href="/logout" class="nav-link"  style="color: white;">Cerrar Sesión</a>
+          </li>
+          </ul>
+        </div>
+      </nav>
     <div class="container mt-5">
         <h2>Registro de Establecimientos</h2>
         <form action="/crearEstablecimiento" method="post">
+            <h4>Indicanos tu dirección</h4>
             <div class="row">
-                <h4>Indicanos tu dirección</h4>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="idPais">Pais</label>

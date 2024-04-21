@@ -100,13 +100,10 @@
           <a class="nav-link" href="/agregarProductos">Agregar Productos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="inventarios.html">Inventario</a> 
+          <a class="nav-link" href="/mostrarInventarios">Inventario</a> 
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/nuevoEstablecimiento">Agregar Establecimiento</a> 
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="contacto.html">Pedidos</a>
         </li>
         <li class="nav-item">
           <a href="/logout" class="nav-link"  style="color: white;">Cerrar Sesión</a>
@@ -124,7 +121,7 @@
                         <img src="<%=producto.RutaImagen%>" alt="Producto <%=producto.ID  %>">
                         <h2><%= producto.Nombre %></h2>
                         <p><%= producto.Descripcion %></p>
-                        <p><%= producto.Precio %></p> 
+                        <p>L. <%= producto.Precio %></p> 
                     </div>
                 </div><%  });  %>
         </div>

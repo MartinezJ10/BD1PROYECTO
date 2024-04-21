@@ -16,7 +16,7 @@ export const dataEstablecimiento = async (req, res) => {
         res.status(500).json({ error: `"Error al encontrar Establecimientos ${error}"` });
     }
 }
-export const crearEstablecimiento = async (req,res) => {
+const crearEstablecimiento = async (req,res) => {
     try {
         const pool = await makeConnection()
 
@@ -30,13 +30,35 @@ export const crearEstablecimiento = async (req,res) => {
         .input("HorarioCierre", sql.VarChar, horarioCierre)
         .query(queries.crearEstablecimiento) 
         
-        //req.session.establecimientoID = qryEstablecimientos.recordset[0].ID
+       // console.log(qryEstablecimientos);
+        return qryEstablecimientos.recordset[0].ID
+        
+    } catch (error) {
+        res.status(500).json({ error: `"Error al crear Establecimientos ${error}"` });
 
-        console.log(qryEstablecimientos);
+    }
+}
+
+export const crearProductorEstablecimiento = async (req,res) => {
+    try {
+        const pool = await makeConnection()
+
+        console.log(req.session)
+
+        const IdUsuarioProductor = req.session.userProductor.ID 
+        const IdEstablecimiento = await crearEstablecimiento(req,res)
+
+        const qryProductorEstablecimiento = await pool.request()
+        .input("IdUsuarioProductor", sql.Int, IdUsuarioProductor)
+        .input("IdEstablecimiento", sql.Int, IdEstablecimiento)
+        .query(queries.crearProductorEstablecimiento)
+
+        console.log(qryProductorEstablecimiento);
+
         res.redirect("/principalProductor")
 
     } catch (error) {
-        res.status(500).json({ error: `"Error al crear Establecimientos ${error}"` });
+        res.status(500).json({ error: `"Error al crear ProductorEstablecimiento ${error}"` });
 
     }
 }

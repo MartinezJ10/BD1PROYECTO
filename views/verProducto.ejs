@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Producto</title>
+    <!-- Agregamos Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .prueba5 {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(13, 200, 16, 0.575);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .prueba5 img {
+            max-width: 100%;
+            height: auto;
+            /* Establecer un tamaño mediano para la imagen */
+            width: 300px;
+            height: 300px;
+            /* Centrar la imagen horizontalmente */
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        .prueba5 h2 {
+            margin-top: 0;
+        }
+        .prueba5 p {
+            margin-bottom: 10px;
+        }
+        .btn {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="prueba5">
+            <img src="<%=producto.RutaImagen %>" alt="Producto">
+            <h2 ><%=producto.Nombre %> en Medida de <%=producto.Medida %></h2>
+            <p >L. <%=producto.Precio %></p>
+
+            <div>
+                <h4>Detalles del Vendedor</h4>
+                <p>Nombre: <%=producto.PrimerNombre  %><%= producto.PrimerApellido %></p>
+                <p>Email: <%=producto.Email  %></p>
+                <p>Telefono: <%=producto.NumeroTelefono  %></p>
+                
+            </div>
+            <form action="/agregarProducto" method="post">
+                <div>
+                    <label for="quantity">Cantidad:</label>
+                    <input name="cantidad" type="number" id="cantidad" min="1">
+                </div>
+                <button type="submit" class="btn btn-primary">Agregar al carrito</button><br> 
+            </form>
+            <br>
+            <a
+             class="btn btn-primary" href="/principalCliente" > Regresar </a> </div>
+        </div>
+      
+    </div>
+
+</body>
+</html>

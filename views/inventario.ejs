@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventarios</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<style>
+
+    body{
+            height: 280vh;
+            align-items: center;
+            background-image: url(https://imgs.search.brave.com/7EVX0NYEnoioTa25ymtCJty9gGL4EiapZY9dsjRPAQs/rs:fit:860:0:0/g:ce/aHR0cHM6Ly93d3cu/ZmlmdHlzb3VuZHMu/Y29tL2ltYWdlcy9n/cmFwaGljcy9ncmFk/aWVudC1ncmVlbi1i/YWNrZ3JvdW5kLTEx/MTUuanBn);
+            background-repeat: no-repeat;
+            background-size: cover;
+    }
+
+        .container {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        .container th, .container td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .container th {
+            background-color: #007bff;
+            color: white;
+        }
+
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Productor</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/principalProductor">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/agregarProductos">Agregar Productos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="inventarios.html">Inventario</a> 
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/nuevoEstablecimiento">Agregar Establecimiento</a> 
+            </li>
+            <li class="nav-item">
+              <a href="/logout" class="nav-link"  style="color: white;">Cerrar Sesión</a>
+          </li>
+          </ul>
+        </div>
+      </nav>
+    
+      <br>
+
+      <h2 style="color: aliceblue;" class="text-center">Mi Inventario: <strong><%=IdUsuarioProductor.Usuario%></strong></h2>
+      <br>
+
+      <table class="table text-center" style="color: white;">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Tipo Movimiento</th>
+            <th scope="col">Establecimiento</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Fecha Entrada</th>
+            <th scope="col">Referencia</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% inventarios.forEach(inventario => { %>   
+                <tr>
+                    <td><%=inventario.ID %></td>
+                    <td><%=inventario.producto %></td>
+                    <td><%=inventario.movimiento %></td>
+                    <td><%=inventario.establecimiento %></td>
+                    <td><%=inventario.cantidad %></td>
+                    <td><%=inventario.fecha %></td>
+                    <td><%=inventario.referencia %></td>
+                    <hr>
+                </tr>
+                <%  });  %>
+        </tbody>
+        
+      </table>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

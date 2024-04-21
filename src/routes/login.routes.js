@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { getIndex, logout, validarLogin, validarUsuario } from "../controllers/login.controller.js"
 import { crearPersona, dataRegistro, obtenerAldeas, obtenerColonias, obtenerDepartamentos, obtenerMunicipios } from "../controllers/registro.controller.js";
-import { crearProductoProductor, dataProductos, obtenerDefinicionProductos, obtenerProductoProductor, obtenerProductos } from "../controllers/productos.controller.js";
+import { crearProductoProductor, dataProductos, obtenerDefinicionProductos, obtenerInventarios, obtenerProductoProductor, obtenerProductoSeleccionado, obtenerProductos } from "../controllers/productos.controller.js";
 import multer from 'multer'
-import { crearEstablecimiento, dataEstablecimiento } from "../controllers/establecimientos.controller.js";
+import { crearProductorEstablecimiento, dataEstablecimiento } from "../controllers/establecimientos.controller.js";
 
 // CONFIG PARA MULTER 
 const storage = multer.diskStorage({
@@ -42,7 +42,7 @@ router.get('/municipio',obtenerMunicipios)
 router.get('/aldea',obtenerAldeas)
 router.get('/colonia',obtenerColonias)
 
-//RUTAS PARA CREAR PRODUCTOS
+//RUTAS PARA PRODUCTOS
 
 router.get('/agregarProductos', dataProductos)
 
@@ -50,10 +50,15 @@ router.get('/definicionProducto', obtenerDefinicionProductos)
 
 router.post('/crearProducto', upload.single('rutaImagen'),crearProductoProductor)
 
-//RUTAS PARA CREAR ESTABLECIMIENT
+router.get('/productoSeleccionado', obtenerProductoSeleccionado)
+
+//RUTAS PARA CREAR ESTABLECIMIENTo
 
 router.get('/nuevoEstablecimiento', dataEstablecimiento)
 
-router.post('/crearEstablecimiento', crearEstablecimiento)
+router.post('/crearEstablecimiento', crearProductorEstablecimiento)
+
+//RUTA PARA INVENTARIOS
+router.get('/mostrarInventarios', obtenerInventarios)
 
 export default router;

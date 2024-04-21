@@ -6,15 +6,22 @@ export const dataProductos = async (req, res) => {
         const pool = await makeConnection()
         const qryMedidas = await pool.request().query(queries.obtenerMedidas)
         const qryTipoProductos = await pool.request().query(queries.obtenerTipoProductos)
- 
+        
+        const IdUsuarioProductor = req.session.userProductor.ID 
+
+        const qryEstablecimientoProductor = await pool.request()
+        .input("IdUsuarioProductor", sql.Int, IdUsuarioProductor)
+        .query(queries.obtenerProductorEstablecimiento)
+
         const medidas = qryMedidas.recordset
+        const establecimientos = qryEstablecimientoProductor.recordset
         const tipoProductos = qryTipoProductos.recordset
 
         res.render('crearProducto.ejs',{
-            medidas,tipoProductos, 
+            medidas,tipoProductos, establecimientos
         })
     } catch (error) {
-        res.status(500).json({ error: `"Error al encontrar direcciones ${error}"` });
+        res.status(500).json({ error: `"Error al encontrar dataProductos ${error}"` });
     }
 }
 
@@ -22,8 +29,6 @@ const crearProducto = async (req, res) => {
    try {
     const pool = await makeConnection()
 
-    console.log(req.body);
-    
     const {precio, descripcion, codigo, medida, definicionProducto} = req.body; 
     const rutaImagen = req.file.path.replace(/^public\\/, ''); //PARA QUE FUNCIONE EL STATIC
 
@@ -48,18 +53,16 @@ export const crearProductoProductor = async (req, res) => {
     try {
         const pool = await makeConnection()
 
-        console.log(req.session);
         const IdUsuarioProductor = req.session.userProductor.ID; 
         const IdProducto = await crearProducto(req,res)
-        
+
         const qryProductoProductor = await pool.request()
         .input("IdProducto", sql.Int, IdProducto)
         .input("IdUsuarioProductor", sql.Int, IdUsuarioProductor)
         .query(queries.crearProductoProductor)
-
+        
         await crearInventario(req,res,IdProducto)
 
-        res.redirect("/principalProductor")
     } catch (error) {
         res.status(500).json({ error: `"Error al crear Producto-Productor ${error}"` });
 
@@ -95,7 +98,6 @@ export const obtenerProductoProductor = async (req,res) => {
             productosProductor:qryObtenerProductoProductor.recordset,
             user:req.session.userProductor
         } 
-        console.log(data);
         res.render('principalProductor.ejs', data)
     } catch (error) {
         res.status(500).json({ error: `"Error al encontrar producto-productor ${error}"` });
@@ -104,51 +106,90 @@ export const obtenerProductoProductor = async (req,res) => {
 
 export const obtenerProductos = async (req,res) => {
     try {
-        const pool = await makeConnection()
+        const pool = await makeConnection() 
 
         const qryObtenerProductos = await pool.request()
-        .query(queries.obtenerProductos)
+        .query(queries.obtenerProductosProductorModificada)
         
         const qryObtenerTipoProductos = await pool.request()
-        .query(queries.obtenerTipoProductos)
-
+        .query(queries.obtenerTipoProductos) 
         const data = {
             productos: qryObtenerProductos.recordset,
             tipoProductos: qryObtenerTipoProductos.recordset,
             user:req.session.userCliente
         }
-        console.log(data);
+
         res.render('principalCliente',data)
 
     } catch (error) {
-        res.status(500).json({ error: `"Error al encontrar DATAINICIALCLIENTE ${error}"` });
+        res.status(500).json({ error: `"Error al encontrar obtenerProductos ${error}"` });
 
     }
+}
+
+export const obtenerProductoSeleccionado = async (req,res) => {
+    try{
+    const pool = await makeConnection() 
+
+    const IdProducto = req.query.IdProducto
+
+    const qryObtenerProductoSeleccionado = await pool.request()
+    .input("IdProducto",sql.Int, IdProducto)
+    .query(queries.obtenerProductosProductorSeleccionada)
+ 
+    const producto = qryObtenerProductoSeleccionado.recordset[0]
+  
+    res.render('verProducto.ejs',{ producto })
+
+} catch (error) {
+    res.status(500).json({ error: `"Error al encontrar obtenerProductos ${error}"` });
+
+}
 }
 
 const crearInventario = async (req,res,IdProducto) => {
     try {
         const pool = await makeConnection()
-
-        console.log(req.session);
-        console.log(req.body);
-        const {cantidad,descripcion} = req.body
+        const {cantidad,descripcion,IdEstablecimiento} = req.body
 
         const IdUsuarioProductor = req.session.userProductor.ID 
-        const IdEstablecimiento = req.session.establecimientoID
-
+        const fechaActual = new Date();
         const qryInventario = await pool.request()
         .input("IdProducto", sql.Int, IdProducto)
-        .input("IdProductor", sql.Int, IdUsuarioProductor)
-        .input("IdTipoMovimiento", sql.Int, IdUsuarioProductor)
+        .input("IdUsuarioProductor", sql.Int, IdUsuarioProductor)
+        .input("IdTipoMovimiento", sql.Int, 1)
         .input("IdEstablecimiento", sql.Int, IdEstablecimiento)
         .input("Cantidad", sql.Int, cantidad)
-        .input("Fecha", sql.Date, Date.now())
+        .input("Fecha", sql.Date, fechaActual)
         .input("Referencia", sql.VarChar, descripcion)
         .query(queries.crearInventario)
 
+        res.redirect("/principalProductor")
+
     } catch (error) {
-        res.status(500).json({ error: `"Error al encontrar Inventario ${error}"` });
+        res.status(500).json({ error: `"Error al crear Inventario ${error}"` });
+
+    }
+}
+
+export const obtenerInventarios = async (req,res) => {
+    try {
+        const pool = await makeConnection()
+
+        const IdUsuarioProductor = req.session.userProductor
+
+        const qryObtenerInventario = await pool.request()
+        .input("IdUsuarioProductor", sql.Int, IdUsuarioProductor.ID)
+        .query(queries.obtenerInventariosPorProductor)
+
+        console.log(qryObtenerInventario);
+        console.log(IdUsuarioProductor);
+        const inventarios = qryObtenerInventario.recordset
+
+        res.render("inventario",{inventarios,IdUsuarioProductor})
+
+    } catch (error) {
+        res.status(500).json({ error: `"Error al obtenere Inventario ${error}"` });
 
     }
 }
