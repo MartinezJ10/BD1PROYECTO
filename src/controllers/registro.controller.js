@@ -181,20 +181,3 @@ const crearUsuario = async (req, res,idPersona) => {
     }
 }
 
-const crearCliente = async (req,res) => {
-    try {
-        
-    } catch (error) {
-        throw new Error(`Error al crear usuario: ${error.message}`);
-
-    }
-}
-
-const crearProductor = async (req,res) => {
-    try {
-        
-    } catch (error) {
-        throw new Error(`Error al crear Productor: ${error.message}`);
-
-    }
-}

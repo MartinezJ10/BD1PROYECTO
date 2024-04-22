@@ -100,10 +100,10 @@ export const queries = {
     INSERT INTO Facturas 
     (IdUsuarioCliente, IdMetodoPago, IdInscripcion, N_Correlativo, NumeroFactura, Fecha, CAI, RTN, SubTotal_Exento, SubTotal_ISV15, SubTotal_ISV18, ISV15, ISV18, Total, Efectivo, Cambio)
     OUTPUT inserted.ID INTO @InsertedIDs(ID)
-    VALUES (@IdCliente, 1, 1, @N_Correlativo, @NumeroFactura, @Fecha, (SELECT CAI FROM InscripcionSAR WHERE ID=1), (SELECT RTN FROM InscripcionSAR WHERE ID=1),  @SubTotal_Exento, @SubTotal_ISV15, @SubTotal_ISV18, @ISV15, @ISV18, @Total, @Efectivo, @Cambio);
+    VALUES (@IdCliente, 1, 3, @N_Correlativo, @NumeroFactura, @Fecha, (SELECT CAI FROM InscripcionSAR WHERE ID=3), (SELECT RTN FROM InscripcionSAR WHERE ID=3),  @SubTotal_Exento, @SubTotal_ISV15, @SubTotal_ISV18, @ISV15, @ISV18, @Total, @Efectivo, @Cambio);
      
     SELECT ID FROM @InsertedIDs; 
-    `, 
+    `,  
     obtenerNcorrelativo:`
     SELECT ActualRango FROM InscripcionSAR;
     `,
