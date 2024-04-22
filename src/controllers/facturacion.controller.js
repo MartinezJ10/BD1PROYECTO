@@ -64,12 +64,30 @@ export const mostrarFactura = async (req,res) => {
         const facturaDetalles = qryMostrarFacturaDetalle.recordset
  
         console.log(facturaEnca);
-        res.render('factura',{facturaEnca,facturaDetalles})
+
+        let numFacturaConFormato = formatoNumFactura(facturaEnca.NumeroFactura) 
+        res.render('factura',{facturaEnca,facturaDetalles,numFacturaConFormato})
 
     } catch (error) {
         console.error(`Error al generar mostrarFactura: ${error}`);
         res.status(500).json({ error: "Error al generar mostrarFactura" });
     }
+}
+
+const formatoNumFactura = (numFactura) =>{
+    const partes = numFactura.split("-");
+
+    const ultimoValor = partes[partes.length - 1];
+    let str = ""
+    let puntoEmision = "00" + partes[0];
+    let Establecimiento = `00${partes[1]}` ;
+    let tipoDocu = "0" + partes[2];
+    for(let i =0; i < 8-(ultimoValor.length); i++){
+        str += "0"
+    }
+    let corr = str + ultimoValor
+    let numFacturaConFormato = puntoEmision + "-" + Establecimiento + "-" + tipoDocu + "-" + corr;
+    return numFacturaConFormato;
 }
 
 export const generarFactura = async (req,res) => {
