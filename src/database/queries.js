@@ -90,5 +90,45 @@ export const queries = {
     INNER JOIN Colonias C ON Dir.IdColonia = C.ID
     INNER JOIN TipoEstablecimientos T ON E.IdTipoEstablecimiento = T.ID
     WHERE I.IdUsuarioProductor = @IdUsuarioProductor
+    `,
+    inscripcionSAR:`
+    INSERT INTO InscripcionSAR (FechaLimite, CAI, InicioRango, ActualRango, FinalRango, ActivoSAR, RTN, IdCaja, Establecimiento, IdTipoDocumento)
+    VALUES ('2024-09-05', '35BD6A-0195F4-B34BAA-8B7D13-37791A-2D', 00000010, @ActualRango, 00100010, 'Activo', '06011969025801', 1, 1, 1);
+    `,
+    crearFactura:`
+    DECLARE @InsertedIDs TABLE (ID INT);
+    INSERT INTO Facturas 
+    (IdUsuarioCliente, IdMetodoPago, IdInscripcion, N_Correlativo, NumeroFactura, Fecha, CAI, RTN, SubTotal_Exento, SubTotal_ISV15, SubTotal_ISV18, ISV15, ISV18, Total, Efectivo, Cambio)
+    OUTPUT inserted.ID INTO @InsertedIDs(ID)
+    VALUES (@IdCliente, 1, 1, @N_Correlativo, @NumeroFactura, @Fecha, (SELECT CAI FROM InscripcionSAR WHERE ID=1), (SELECT RTN FROM InscripcionSAR WHERE ID=1),  @SubTotal_Exento, @SubTotal_ISV15, @SubTotal_ISV18, @ISV15, @ISV18, @Total, @Efectivo, @Cambio);
+     
+    SELECT ID FROM @InsertedIDs; 
+    `, 
+    obtenerNcorrelativo:`
+    SELECT ActualRango FROM InscripcionSAR;
+    `,
+    actualizarNcorrelativo: "UPDATE InscripcionSAR SET ActualRango = ActualRango + 1",
+    obtenerFactura: "SELECT * FROM Facturas WHERE ID = @IdFactura",
+    procAlmacenado_GenerarNumFactura: "EXEC CalcularNumeroFactura @idfactura",
+    crearFacturaDetalle: `
+    INSERT INTO FacturasDetalle (IdFactura, IdProducto, PrecioUnitario, Cantidad, Importe) 
+    VALUES (@IdFactura, @IdProducto, @PrecioProducto, @Cantidad, @Importe)
+    `,
+    mostrarFacturaDetalles :`
+    SELECT DefinicionProducto.Nombre, FacturasDetalle.PrecioUnitario, FacturasDetalle.Cantidad, Medidas.Nombre Medida, Importe FROM FacturasDetalle
+    INNER JOIN Facturas ON FacturasDetalle.IdFactura = Facturas.ID
+    INNER JOIN Productos ON FacturasDetalle.IdProducto = Productos.ID
+    INNER JOIN DefinicionProducto ON Productos.IdDefProducto = DefinicionProducto.ID
+    INNER JOIN Medidas ON Productos.IdMedida = Medidas.ID
+    WHERE Facturas.ID = @IdFactura
+    `,
+    mostrarFacturaEncabezado:`
+    SELECT Facturas.NumeroFactura, Facturas.Fecha,(Personas.PrimerNombre + ' ' + Personas.SegundoNombre + ' ' + Personas.PrimerApellido + ' ' + Personas.SegundoApellido) NombreCliente, Facturas.RTN, Facturas.CAI, Facturas.SubTotal_Exento, Facturas.SubTotal_ISV15, Facturas.SubTotal_ISV18, Facturas.ISV15, Facturas.ISV18, Facturas.Efectivo, Facturas.Cambio, Facturas.Total
+    FROM Facturas
+    INNER JOIN Usuarios ON Facturas.IdUsuarioCliente = Usuarios.ID
+    INNER JOIN Personas ON Usuarios.IdPersona = Personas.ID
+    WHERE Facturas.ID = @IdFactura
     `
+
+    
 }

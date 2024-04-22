@@ -2,7 +2,8 @@ import { sql,makeConnection } from "../database/database.js";
 import {queries} from "../database/queries.js"
 import { crearDireccion } from "./registro.controller.js";
 
-export const dataEstablecimiento = async (req, res) => {
+//ESTA ENVIA LOS PARAMETROS DE ENTRADA PARA CREAR UN ESTABLECIMIENTO
+export const dataEstablecimiento = async (req, res) => { 
     try {
         const pool = await makeConnection()
         const qryPaises = await pool.request().query(queries.obtenerPaises)
@@ -16,6 +17,7 @@ export const dataEstablecimiento = async (req, res) => {
         res.status(500).json({ error: `"Error al encontrar Establecimientos ${error}"` });
     }
 }
+
 const crearEstablecimiento = async (req,res) => {
     try {
         const pool = await makeConnection()

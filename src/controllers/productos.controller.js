@@ -123,7 +123,6 @@ export const obtenerProductos = async (req,res) => {
 
     } catch (error) {
         res.status(500).json({ error: `"Error al encontrar obtenerProductos ${error}"` });
-
     }
 }
 
@@ -138,7 +137,6 @@ export const obtenerProductoSeleccionado = async (req,res) => {
     .query(queries.obtenerProductosProductorSeleccionada)
  
     const producto = qryObtenerProductoSeleccionado.recordset[0]
-  
     res.render('verProducto.ejs',{ producto })
 
 } catch (error) {
@@ -151,6 +149,7 @@ const crearInventario = async (req,res,IdProducto) => {
     try {
         const pool = await makeConnection()
         const {cantidad,descripcion,IdEstablecimiento} = req.body
+        
 
         const IdUsuarioProductor = req.session.userProductor.ID 
         const fechaActual = new Date();

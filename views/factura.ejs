@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #factura, #factura * {
+                visibility: visible;
+            }
+            #factura {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .factura {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        .factura-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .factura-header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+        .factura-header p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+        .table-factura {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table-factura th,
+        .table-factura td {
+            border: 1px solid #ddd;
+            padding: 4px;
+            text-align: right;
+        }
+        .table-factura th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        /* Nuevos estilos para los campos cantidad, valor y total */
+        .cantidad-columna,
+        .descripcion-columna,
+        .valor-columna,
+        .total-columna {
+            width: 33.33%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Factura -->
+    <div id="factura" class="factura">
+        <div class="factura-header">
+            <h1>Factura</h1>
+            <tr>
+                <th>Numero Factura</th>
+                <td><%=facturaEnca.NumeroFactura%></td>
+            </tr>
+            <br>
+        </div>
+
+        <tr class="left-align">
+            <th>Fecha: <%=facturaEnca.Fecha%></th>
+            <p id="fecha"></p>
+        </tr>
+
+        <div class="cliente">
+            <p>Cliente: <%=facturaEnca.NombreCliente%></p>
+        </div>
+
+        <tr>
+            <th>RTN: </th>
+            <td><%=facturaEnca.RTN%></td>
+        </tr><br>
+
+        
+        <table class="table-factura">
+            <thead>
+                <tr>
+                  <th scope="col">Cantidad</th>
+                  <th scope="col">Producto</th>
+                  <th scope="col">Precio Unidad</th>
+                  <th scope="col">Importe</th>
+                </tr>
+              </thead>
+            <tbody>
+                <% facturaDetalles.forEach(detalle => { %>   
+                    <tr>
+                        <th class="cantidad-columna"><%= detalle.Cantidad%></th>
+                        <th class="descripcion-columna"><%= detalle.Nombre%></th>
+                        <th class="valor-columna"><%=detalle.PrecioUnitario%></th>
+                        <th class="total-columna"><%= detalle.Importe%></th>
+                    </tr>
+                   
+                    <%  });  %>
+                <!-- Agrega más filas aquí si es necesario -->
+            </tbody>
+        </table>
+
+        <br>
+
+        <!-- Sección para los campos restantes -->
+        <table class="table-factura">
+            <tbody>
+                <tr>
+                    <th>SubTotal Excento</th>
+                    <td>L. <%=facturaEnca.SubTotal_Exento%></td>
+                </tr>
+                <tr>
+                    <th>SubTotal ISV 15%</th>
+                    <td>L. <%=facturaEnca.SubTotal_ISV15%></td>
+                </tr>
+                <tr>
+                    <th>SubTotal ISV 18%</th>
+                    <td>L. <%=facturaEnca.SubTotal_ISV18%></td>
+                </tr>
+                <tr>
+                    <th>ISV 15%</th>
+                    <td>L. <%=facturaEnca.ISV15%></td>
+                </tr>
+                <tr>
+                    <th>ISV 18%</th>
+                    <td>L. <%=facturaEnca.ISV18%></td>
+                </tr>
+                <tr>
+                    <th>Efectivo</th>
+                    <td>L. <%=facturaEnca.Efectivo%></td>
+                </tr>
+                
+                <tr>
+                    <th>Cambio</th>
+                    <td>L. <%=facturaEnca.Cambio%></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Total: L. <%=facturaEnca.Total%></p>
+
+        <tr>
+            <th>CAI</th>
+            <td><%=facturaEnca.CAI%></td>
+        </tr>
+        <br>
+
+        <br>
+
+        <button class="btn btn-info" onclick="window.print()">Imprimir Factura</button>
+        <a class="btn btn-success" href="/principalCliente">Regresar</a>
+    </div>    
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

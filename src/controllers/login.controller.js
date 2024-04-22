@@ -1,5 +1,6 @@
 import { sql,makeConnection } from "../database/database.js";
 import {queries} from "../database/queries.js"
+import { generarFactura } from "./facturacion.controller.js";
 
 export const getIndex = async (req,res) => {
     try {
@@ -23,7 +24,7 @@ export const validarUsuario = async (req, res) => {
             console.log(req.body);
             console.log(result.rowsAffected[0]);
             
-        if (result.rowsAffected[0] === 1) {
+        if (result.rowsAffected[0] === 1) { 
 
             const checkRol = await pool.request()
             .input("IdUsuario", sql.Int, result.recordset[0].ID )
@@ -34,6 +35,9 @@ export const validarUsuario = async (req, res) => {
             switch (checkRol.recordset[0].IdRol) {
                 case 1:
                     req.session.userCliente = result.recordset[0]
+                    
+                    await generarFactura(req,res) //GENERAR FACTURA AL INICIAR SESION COMO CLIENTE
+                   
                     res.redirect('/principalCliente')
                     break;
                 case 2:

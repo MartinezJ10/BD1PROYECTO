@@ -4,6 +4,7 @@ import { crearPersona, dataRegistro, obtenerAldeas, obtenerColonias, obtenerDepa
 import { crearProductoProductor, dataProductos, obtenerDefinicionProductos, obtenerInventarios, obtenerProductoProductor, obtenerProductoSeleccionado, obtenerProductos } from "../controllers/productos.controller.js";
 import multer from 'multer'
 import { crearProductorEstablecimiento, dataEstablecimiento } from "../controllers/establecimientos.controller.js";
+import { agregarProductoCarrito, mostrarCarrito, mostrarFactura } from "../controllers/facturacion.controller.js";
 
 // CONFIG PARA MULTER 
 const storage = multer.diskStorage({
@@ -59,6 +60,14 @@ router.get('/nuevoEstablecimiento', dataEstablecimiento)
 router.post('/crearEstablecimiento', crearProductorEstablecimiento)
 
 //RUTA PARA INVENTARIOS
+
 router.get('/mostrarInventarios', obtenerInventarios)
+
+//RUTAS PARA FACTURACION
+router.get('/mostrarCarrito', mostrarCarrito)
+
+router.post('/agregarProductoCarrito', agregarProductoCarrito)
+
+router.get('/mostrarFactura', mostrarFactura)
 
 export default router;

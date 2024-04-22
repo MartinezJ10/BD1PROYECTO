@@ -3,45 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalles del Producto</title>
+    <title>Interfaz de cliente</title>
     <!-- Agregamos Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        section {
             padding: 20px;
         }
-        .prueba5 {
+        .product {
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(13, 200, 16, 0.575);
             padding: 20px;
             margin-bottom: 20px;
+            cursor: pointer; /* Cambio del cursor a mano al pasar sobre el producto */
         }
-        .prueba5 img {
+        .product img {
             max-width: 100%;
             height: auto;
-            /* Establecer un tamaño mediano para la imagen */
-            width: 300px;
-            height: 300px;
-            /* Centrar la imagen horizontalmente */
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
         }
-        .prueba5 h2 {
+        .product h2 {
             margin-top: 0;
         }
-        .prueba5 p {
+        .product p {
             margin-bottom: 10px;
         }
         .btn {
             cursor: pointer;
         }
+        .product-list {
+         display: none;
+        position: absolute;
+        background-color: #ffffff; /* Color de fondo de la lista */
+        padding: 10px;
+        list-style-type: none;
+}
+
+        .nav-item:hover .product-list {
+         display: block;
+}
+/* Estilos para centrar el h1 */
+h1 {
+    text-align: center;
+}
+/* Estilos para centrar el botón */
+.button-container {
+    text-align: center;
+}
     </style>
 </head>
 <body>
+    <header>
+        <div style="text-align: center;"> <!-- Contenedor centrado -->
+            <img src="Images/eco justa.png" alt="login-icon" style="height: 4rem; margin-right: 10px;"> <!-- Imagen -->
+            <h1 style="display: inline-block;">Eco Justa</h1> <!-- Texto -->
+        </div>
+    </header>
     <nav class="navbar navbar-expand-lg navbar-success bg-success">
         <div class="container">
             <a class="nav-link" href="/principalCliente" style="color: white;">Inicio</a>
@@ -73,35 +100,32 @@
             </ul>
         </div>
     </nav><br>
-    <div class="container">
-        <div class="prueba5">
-            <img src="<%=producto.RutaImagen %>" alt="Producto">
-            <h2 ><%=producto.Nombre %> en Medida de <%=producto.Medida %></h2>
-            <p >L. <%=producto.Precio %></p>
+      <br>
+      <br>
+      <br>
+  <br>
+  <br>
+  <br>
 
-            <div>
-                <h4>Detalles del Vendedor</h4>
-                <p>Nombre: <%=producto.PrimerNombre  %><%= producto.PrimerApellido %></p>
-                <p>Email: <%=producto.Email  %></p>
-                <p>Telefono: <%=producto.NumeroTelefono  %></p>
-                
+  <h1>Productos Agregados al carrito</h1>
+  <br>
+  <section class="container">
+    <div class="row">
+        <% productos.forEach(producto => { %>
+            <div class="col-md-4">
+                    <div class="product">
+                        <h2><%= producto.Nombre %></h2>
+                        <p> PrecioUnitario : L.<%= producto.PrecioUnitario %></p>
+                        <p> Cantidad : <%= producto.Cantidad %> <%=producto.Medida %></p> 
+                        <p><strong> Importe :  <%= producto.Importe %></strong></p>
+                    </div>
             </div>
-            <form action="/agregarProductoCarrito" method="post">
-                <div>
-                    <label for="quantity">Cantidad:</label>
-                    <input name="cantidad" type="number" id="cantidad" value="1" min="1">
-                    <input type="hidden" name="ProductoID" value="<%=producto.ProductoID %>">
-                    <input type="hidden" name="PrecioProducto" value="<%=producto.Precio %>">
-
-                </div>
-                <button type="submit" class="btn btn-primary">Agregar al carrito</button><br> 
-            </form>
-            <br>
-            <a
-             class="btn btn-primary" href="/principalCliente" > Regresar </a> </div>
+        <%  });  %> 
         </div>
-      
-    </div>
-
+</section>
+  <div class="button-container">
+      <a class="btn btn-primary" href="/mostrarFactura">Generar factura</a>
+  </div>
+ 
 </body>
 </html>
